@@ -1,0 +1,42 @@
+{
+    "$schema": "https://raw.githubusercontent.com/DanielGavin/ols/refs/heads/master/misc/ols.schema.json",
+    "thread_pool_count": 5,
+    "verbose": true,
+    "file_log": true,
+    "enable_format": true,
+    "enable_hover": true,
+    "enable_auto_import": true,
+    "enable_document_symbols": true,
+    "struct_fields_underscore_visibility": "",
+    "enable_overload_resolution": true,
+    "enable_references": true,
+    "enable_document_highlights": true,
+    "enable_document_links": true,
+    "enable_completion_matching": true,
+    "enable_inlay_hints_params": true,
+    "enable_inlay_hints_default_params": true,
+    "enable_inlay_hints_implicit_return": true,
+    "enable_inlay_hints_optional_result": true,
+    "enable_semantic_tokens": true,
+    "enable_snippets": true,
+    "enable_procedure_snippet": true,
+    "enable_comp_lit_signature_help": true,
+    "enable_comp_lit_signature_help_use_docs": true,
+    "enable_code_action_invert_if": true,
+    "enable_procedure_context": true,
+    "enable_fake_methods": true,
+    "collections": [],
+    "profiles": [
+        {
+            "name": "macos-arm64",
+            "os": "darwin",
+            "arch": "arm64",
+            "checker_path": [
+                "./server",
+                "./metrics",
+                "./external/odin-http"
+            ]
+        }
+    ],
+    "profile": "macos-arm64"
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <title>Huginn</title>
+    <link rel="icon" type="image/svg+xml" href="/logos/logo.svg">
+    <link rel="stylesheet" href="dashboard.css">
+    <script defer src="dashboard.js"></script>
+</head>
+
+<body>
+    <div class="splash" id="splash" aria-hidden="true">
+        <div class="splash__content">
+            <img src="logos/logo.svg" alt="" class="splash__logo">
+            <span class="splash__title">Huginn</span>
+        </div>
+    </div>
+
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header>
+        <div class="header-brand">
+            <img src="logos/logo.svg" alt="Huginn" class="header-logo">
+            <h1>Huginn</h1>
+        </div>
+        <div class="header-status">
+            <span id="last-updated" class="last-updated"></span>
+            <span id="status-light" class="status-light status-light--idle" role="status"
+                aria-label="Live data indicator"></span>
+            <span id="status-text">Idle</span>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="grid">
+            <div class="card card-host">
+                <h2>Host Info</h2>
+                <div class="field">
+                    <span class="field__label">OS Name</span>
+                    <span class="field__value" id="host-os-name">--</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">OS Version</span>
+                    <span class="field__value" id="host-os-version">--</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Release</span>
+                    <span class="field__value" id="host-release">--</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Kernel</span>
+                    <span class="field__value" id="host-kernel">--</span>
+                </div>
+            </div>
+
+            <div class="card card-cpu">
+                <h2>CPU</h2>
+                <div class="field">
+                    <span class="field__label">Name</span>
+                    <span class="field__value" id="cpu-name">--</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Physical/Logical</span>
+                    <span class="field__value">
+                        <span id="cpu-physical">--</span> / <span id="cpu-logical">--</span>
+                    </span>
+                </div>
+                <div class="usage-row">
+                    <span class="usage-row__label">Usage</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="cpu-used-bar" data-level="normal"></div>
+                    </div>
+                    <span class="usage-row__value">
+                        <span id="cpu-used-percentage" class="num-strong">--</span> %
+                    </span>
+                </div>
+            </div>
+
+            <div class="card card-memory">
+                <h2>Memory</h2>
+                <div class="field">
+                    <span class="field__label">Total</span>
+                    <span class="field__value"><span id="mem-total">--</span> GiB</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Available</span>
+                    <span class="field__value"><span id="mem-available">--</span> GiB</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Used</span>
+                    <span class="field__value"><span id="mem-used">--</span> GiB</span>
+                </div>
+                <div class="usage-row">
+                    <span class="usage-row__label">Usage</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="mem-used-bar" data-level="normal"></div>
+                    </div>
+                    <span class="usage-row__value">
+                        <span id="mem-used-percentage" class="num-strong">--</span> %
+                    </span>
+                </div>
+            </div>
+
+            <div class="card card-disk">
+                <h2>Disk</h2>
+                <div class="field">
+                    <span class="field__label">Mount Point</span>
+                    <span class="field__value" id="disk-mount-point">--</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Total</span>
+                    <span class="field__value"><span id="disk-total">--</span> GiB</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Available</span>
+                    <span class="field__value"><span id="disk-available">--</span> GiB</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Used</span>
+                    <span class="field__value"><span id="disk-used">--</span> GiB</span>
+                </div>
+                <div class="usage-row">
+                    <span class="usage-row__label">Usage</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="disk-used-bar" data-level="normal"></div>
+                    </div>
+                    <span class="usage-row__value">
+                        <span id="disk-used-percentage" class="num-strong">--</span> %
+                    </span>
+                </div>
+            </div>
+
+            <div class="card card-network">
+                <h2>Network</h2>
+                <div class="field">
+                    <span class="field__label" id="net-select-label">Interface</span>
+                    <span class="field__value">
+                        <select id="net-select" aria-labelledby="net-select-label"></select>
+                    </span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Bytes In</span>
+                    <span class="field__value"><span id="net-bytes-in">--</span> KiB/s</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Bytes Out</span>
+                    <span class="field__value"><span id="net-bytes-out">--</span> KiB/s</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Packets In</span>
+                    <span class="field__value"><span id="net-packets-in">--</span> pkt/s</span>
+                </div>
+                <div class="field">
+                    <span class="field__label">Packets Out</span>
+                    <span class="field__value"><span id="net-packets-out">--</span> pkt/s</span>
+                </div>
+            </div>
+
+            <div class="card card--full card-processes">
+                <h2>
+                    Processes
+                    <span class="card__sort-control">
+                        <label for="proc-sort-select">Sort by:</label>
+                        <select id="proc-sort-select">
+                            <option value="cpu">CPU</option>
+                            <option value="mem">Memory</option>
+                        </select>
+                    </span>
+                </h2>
+                <div class="table-wrap">
+                    <table id="proc-table" data-sort="cpu" aria-label="Running processes sorted by CPU or memory usage">
+                        <thead>
+                            <tr>
+                                <th scope="col">PID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col" class="numeric" aria-sort="descending">CPU %</th>
+                                <th scope="col" class="numeric" aria-sort="none">MEM (MiB)</th>
+                                <th scope="col">User</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proc-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <span id="error-message" aria-live="polite"></span>
+    </footer>
+</body>
+
+</html>
