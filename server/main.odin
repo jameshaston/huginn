@@ -91,7 +91,15 @@ handle_metrics :: proc(req: ^http.Request, res: ^http.Response) {
 		name            = cpu_raw.name,
 		physical        = cpu_raw.physical,
 		logical         = cpu_raw.logical,
-		used_percentage = round_to(cpu_raw.used_percentage),
+		used_percentage = round_to(
+			cpu_raw.user_percent +
+			cpu_raw.nice_percent +
+			cpu_raw.system_percent +
+			cpu_raw.iowait_percent +
+			cpu_raw.irq_percent +
+			cpu_raw.softirq_percent +
+			cpu_raw.steal_percent,
+		),
 	}
 
 	mem_display := Memory_Stats_Display {

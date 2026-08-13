@@ -232,28 +232,43 @@ _cpu_snapshot :: proc() -> (cpu: CPU_Stats, ok: bool) {
 	sync.lock(&_cpu_mutex)
 
 	if _prev_cpu_valid {
-		d_user := ticks[_CPU_FIELD_USER] - _prev_cpu_ticks[_CPU_FIELD_USER]
-		d_nice := ticks[_CPU_FIELD_NICE] - _prev_cpu_ticks[_CPU_FIELD_NICE]
-		d_system := ticks[_CPU_FIELD_SYSTEM] - _prev_cpu_ticks[_CPU_FIELD_SYSTEM]
-		d_idle := ticks[_CPU_FIELD_IDLE] - _prev_cpu_ticks[_CPU_FIELD_IDLE]
-		d_iowait := ticks[_CPU_FIELD_IOWAIT] - _prev_cpu_ticks[_CPU_FIELD_IOWAIT]
-		d_irq := ticks[_CPU_FIELD_IRQ] - _prev_cpu_ticks[_CPU_FIELD_IRQ]
-		d_softirq := ticks[_CPU_FIELD_SOFTIRQ] - _prev_cpu_ticks[_CPU_FIELD_SOFTIRQ]
-		d_steal := ticks[_CPU_FIELD_STEAL] - _prev_cpu_ticks[_CPU_FIELD_STEAL]
+		// Guard against u64 counter wraparound or kernel reset.
+		// If any current value is less than previous, treat as a reset:
+		// store the new snapshot and return zeros for this interval.
+		// This can happen in virtualized/cloud environments due to
+		// container restarts, VM migration, or hypervisor counter resets.
+		wrapped := false
+		for i in 0 ..< _CPU_FIELD_COUNT {
+			if ticks[i] < _prev_cpu_ticks[i] {
+				wrapped = true
+				break
+			}
+		}
 
-		d_used := d_user + d_nice + d_system + d_iowait + d_irq + d_softirq + d_steal
-		d_total := d_used + d_idle
+		if !wrapped {
+			d_user := ticks[_CPU_FIELD_USER] - _prev_cpu_ticks[_CPU_FIELD_USER]
+			d_nice := ticks[_CPU_FIELD_NICE] - _prev_cpu_ticks[_CPU_FIELD_NICE]
+			d_system := ticks[_CPU_FIELD_SYSTEM] - _prev_cpu_ticks[_CPU_FIELD_SYSTEM]
+			d_idle := ticks[_CPU_FIELD_IDLE] - _prev_cpu_ticks[_CPU_FIELD_IDLE]
+			d_iowait := ticks[_CPU_FIELD_IOWAIT] - _prev_cpu_ticks[_CPU_FIELD_IOWAIT]
+			d_irq := ticks[_CPU_FIELD_IRQ] - _prev_cpu_ticks[_CPU_FIELD_IRQ]
+			d_softirq := ticks[_CPU_FIELD_SOFTIRQ] - _prev_cpu_ticks[_CPU_FIELD_SOFTIRQ]
+			d_steal := ticks[_CPU_FIELD_STEAL] - _prev_cpu_ticks[_CPU_FIELD_STEAL]
 
-		if d_total > 0 {
-			used_pct = f64(d_used) / f64(d_total) * 100.0
-			user_pct = f64(d_user) / f64(d_total) * 100.0
-			nice_pct = f64(d_nice) / f64(d_total) * 100.0
-			system_pct = f64(d_system) / f64(d_total) * 100.0
-			idle_pct = f64(d_idle) / f64(d_total) * 100.0
-			iowait_pct = f64(d_iowait) / f64(d_total) * 100.0
-			irq_pct = f64(d_irq) / f64(d_total) * 100.0
-			softirq_pct = f64(d_softirq) / f64(d_total) * 100.0
-			steal_pct = f64(d_steal) / f64(d_total) * 100.0
+			d_used := d_user + d_nice + d_system + d_iowait + d_irq + d_softirq + d_steal
+			d_total := d_used + d_idle
+
+			if d_total > 0 {
+				used_pct = f64(d_used) / f64(d_total) * 100.0
+				user_pct = f64(d_user) / f64(d_total) * 100.0
+				nice_pct = f64(d_nice) / f64(d_total) * 100.0
+				system_pct = f64(d_system) / f64(d_total) * 100.0
+				idle_pct = f64(d_idle) / f64(d_total) * 100.0
+				iowait_pct = f64(d_iowait) / f64(d_total) * 100.0
+				irq_pct = f64(d_irq) / f64(d_total) * 100.0
+				softirq_pct = f64(d_softirq) / f64(d_total) * 100.0
+				steal_pct = f64(d_steal) / f64(d_total) * 100.0
+			}
 		}
 	}
 
