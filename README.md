@@ -8,8 +8,6 @@ realms to collect information and return it to Odin.
 
 ## Screenshots
 
-![Watch the demo](assets/mov-huginn-webapp.mp4)
-
 ![Huginn Web App](assets/screenshot-huginn-webapp.png)
 
 ![Huginn Splashscreen](assets/screenshot-huginn-splashscreen.png)
