@@ -10,6 +10,8 @@ realms to collect information and return it to Odin.
 
 ![Huginn Web App](assets/screenshot-huginn-webapp.png)
 
+![Huginn - Sort By Memory](./assets/screenshot-huginn-mem-sort.png)
+
 ![Huginn Splashscreen](assets/screenshot-huginn-splashscreen.png)
 
 ## Features
