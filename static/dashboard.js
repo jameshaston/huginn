@@ -183,6 +183,10 @@ async function fetchProcesses() {
             tdName.textContent = p.name;
             tr.appendChild(tdName);
 
+            const tdThreads = document.createElement("td");
+            tdThreads.textContent = p.thread_count;
+            tr.appendChild(tdThreads);
+
             const tdCpu = document.createElement("td");
             tdCpu.textContent = p.cpu_percent;
             tr.appendChild(tdCpu);
@@ -206,9 +210,33 @@ async function fetchProcesses() {
 
 document.getElementById("proc-sort-select").addEventListener("change", (e) => {
     procSort = e.target.value;
-    if (procTable) procTable.dataset.sort = procSort;
+    if (procTable) {
+        procTable.dataset.sort = procSort;
+
+        const thCpu = procTable.querySelector("th:nth-child(4)");
+        const thMem = procTable.querySelector("th:nth-child(5)");
+        if (thCpu) thCpu.setAttribute("aria-sort", procSort === "cpu" ? "descending" : "none");
+        if (thMem) thMem.setAttribute("aria-sort", procSort === "mem" ? "descending" : "none");
+    }
     fetchProcesses();
 });
+
+const showUserCheckbox = document.getElementById("proc-show-user");
+
+if (showUserCheckbox) {
+    const saved = localStorage.getItem("proc-show-user");
+    if (saved !== null) {
+        const show = saved === "true";
+        showUserCheckbox.checked = show;
+        procTable.classList.toggle("hide-user", !show);
+    }
+
+    showUserCheckbox.addEventListener("change", () => {
+        const show = showUserCheckbox.checked;
+        procTable.classList.toggle("hide-user", !show);
+        localStorage.setItem("proc-show-user", String(show));
+    });
+}
 
 setStatus("idle");
 updateClock();

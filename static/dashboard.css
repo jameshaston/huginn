@@ -160,6 +160,24 @@ h1 {
     letter-spacing: normal;
 }
 
+.card__toggle-control {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    margin-inline-start: var(--space-3);
+}
+
+.card__toggle-control input {
+    margin: 0;
+    cursor: pointer;
+}
+
 /* ─── card components ─── */
 .card {
     background: var(--bg-card);
@@ -360,37 +378,44 @@ th.numeric {
 }
 
 td:nth-child(3),
-td:nth-child(4) {
+td:nth-child(4),
+td:nth-child(5) {
     text-align: right;
 }
 
 /* ─── sort column highlight ─── */
-#proc-table[data-sort="cpu"] th:nth-child(3),
-#proc-table[data-sort="cpu"] td:nth-child(3) {
+#proc-table[data-sort="cpu"] th:nth-child(4),
+#proc-table[data-sort="cpu"] td:nth-child(4) {
     border-inline-start: 2px solid var(--accent);
     border-inline-end: 2px solid var(--accent);
 }
 
-#proc-table[data-sort="cpu"] th:nth-child(3) {
+#proc-table[data-sort="cpu"] th:nth-child(4) {
     border-block-start: 2px solid var(--accent);
 }
 
-#proc-table[data-sort="cpu"] tbody tr:last-child td:nth-child(3) {
+#proc-table[data-sort="cpu"] tbody tr:last-child td:nth-child(4) {
     border-block-end: 2px solid var(--accent);
 }
 
-#proc-table[data-sort="mem"] th:nth-child(4),
-#proc-table[data-sort="mem"] td:nth-child(4) {
+#proc-table[data-sort="mem"] th:nth-child(5),
+#proc-table[data-sort="mem"] td:nth-child(5) {
     border-inline-start: 2px solid var(--accent);
     border-inline-end: 2px solid var(--accent);
 }
 
-#proc-table[data-sort="mem"] th:nth-child(4) {
+#proc-table[data-sort="mem"] th:nth-child(5) {
     border-block-start: 2px solid var(--accent);
 }
 
-#proc-table[data-sort="mem"] tbody tr:last-child td:nth-child(4) {
+#proc-table[data-sort="mem"] tbody tr:last-child td:nth-child(5) {
     border-block-end: 2px solid var(--accent);
+}
+
+/* ─── column visibility toggle ─── */
+#proc-table.hide-user th:nth-child(6),
+#proc-table.hide-user td:nth-child(6) {
+    display: none;
 }
 
 /* ─── status dot ─── */

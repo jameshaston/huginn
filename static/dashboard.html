@@ -168,6 +168,10 @@
                             <option value="cpu">CPU</option>
                             <option value="mem">Memory</option>
                         </select>
+                        <label class="card__toggle-control">
+                            <input type="checkbox" id="proc-show-user" checked>
+                            User
+                        </label>
                     </span>
                 </h2>
                 <div class="table-wrap">
@@ -176,6 +180,7 @@
                             <tr>
                                 <th scope="col">PID</th>
                                 <th scope="col">Name</th>
+                                <th scope="col" class="numeric">Threads</th>
                                 <th scope="col" class="numeric" aria-sort="descending">CPU %</th>
                                 <th scope="col" class="numeric" aria-sort="none">MEM (MiB)</th>
                                 <th scope="col">User</th>
